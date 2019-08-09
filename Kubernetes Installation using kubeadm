@@ -1,16 +1,16 @@
 ################################################ --Lab Environment Setup-- ##########################################################
 
-Steps Need to be performed on all the Nodes (Master & Worker):
+---> Steps Need to be performed on all the Nodes (Master & Worker):
 
-    1. Create 3 Ubuntu VMs 16.04.5 or 18.04.1.0 on any cloud provider of your choice.
+#    1. Create 3 Ubuntu VMs 16.04.5 or 18.04.1.0 on any cloud provider of your choice.
         a. 1 Master node  [2vCPU, 2GB RAM, 100GB Disk space ]
         b. 2 Worker nodes [Same configuration as master.....]
         
-    2. Have Static IPs set on individual VMs.
+#    2. Have Static IPs set on individual VMs.
     
     3. Edit /etc/hostname and edit hostname to match the host of your choice.
     
-    4. Edit/etc/hosts to add hostname and IP addresses on all Nodes (Hosts file includes name to IP mappings for VMs).
+    4. Edit /etc/hosts to add hostname and IP addresses on all Nodes (Hosts file includes name to IP mappings for VMs).
     
     5. Make sure Swap is disabled on all nodes.
         a. Turn off/Disable swap using commnad 
@@ -56,8 +56,9 @@ EOF'
     14. Ensure both are set to start when the system starts up.
 #Command1: sudo systemctl enable kubelet.service
 #Command2: sudo systemctl enable docker.service
+---------------------------------------------------------------------------------------------------------------------------------------            
             
-Bootstrapping the Master Node with Kubeadm (Run beow commands only on Master):
+----> Bootstrapping the Master Node with Kubeadm (Run beow commands only on Master):
         ~ [Default Process involved (Customizable)]: 
                         kubeadm init, Pre-flight checks, creates a CA(For AUthentication & Encryption),
                         Generate kube config files, Generate static pod manifests, Start up the control plane,
@@ -94,10 +95,30 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 #Command3: ls /etc/kubernetes/manifests [manifests files on the master]
 #Command4: sudo more /etc/kubernetes/manifests/etcd.yaml
 #Command5: sudo more /etc/kubernetes/manifests/kube-apiserver.yaml
+----------------------------------------------------------------------------------------------------------------------------------------            
             
-Adding a Worker node to Master node on our cluster:
+---> Adding a Worker node to Master node on our cluster:
         ~ [Default Process involved (TLS Bootstrapping)]:
                         kubeadm join, Download cluster information, Node submits a CSR request, CA signs the CSR automatically,
                         configures kubelet.conf
                         
-    1. 
+Note: Skip Step1, Step2, Step3, STep4 if you have kept the output of kube init on master node.  
+
+    1. If you didn't keep the output, on the master, you can get the token by using this command
+#Command: kubeadm token list
+
+    2. If you need to generate a new token, perhaps the old one timed out/expired.
+#Command: kubeadm token create
+
+    3. On the master, you can find the ca cert hash.
+#Command: openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'
+ 
+    4. Using the master (API Server) IP address or name, the token and the cert hash, let's join this Node to our cluster.
+#Command: 
+sudo kubeadm join ip_of_master:6443 \
+    --token #Provide_your_Token \
+    --discovery-token-ca-cert-hash #Provide_the_ca_hash_key
+   
+   
+   
+   
