@@ -1,14 +1,12 @@
-# Hello
-
 ################################################ --Lab Environment Setup-- ##########################################################
 
-#---> Steps Need to be performed on all the Nodes (Master & Worker):
+---> Steps Need to be performed on all the Nodes (Master & Worker):
 
-#    1. **Create 3 Ubuntu VMs 16.04.5 or 18.04.1.0 on any cloud provider of your choice.
+    1. Create 3 Ubuntu VMs 16.04.5 or 18.04.1.0 on any cloud provider of your choice.
         a. 1 Master node  [2vCPU, 2GB RAM, 100GB Disk space ]
         b. 2 Worker nodes [Same configuration as master.....]
         
-#    2. Have Static IPs set on individual VMs.
+    2. Have Static IPs set on individual VMs.
     
     3. Edit /etc/hostname and edit hostname to match the host of your choice.
     
@@ -119,8 +117,13 @@ Note: Skip Step1, Step2, Step3, STep4 if you have kept the output of kube init o
 #Command: 
 sudo kubeadm join ip_of_master:6443 \
     --token #Provide_your_Token \
-    --discovery-token-ca-cert-hash #Provide_the_ca_hash_key
+    --discovery-token-ca-cert-hash sha256:#Provide_the_ca_hash_key
    
-   
+   5. Back on master, this will say NotReady until the networking pod is created on the new node. Has to schedule the pod, then pull the container.
+#Command: kubectl get nodes 
+
+Perform the same steps for Worker node 2. Here you Go !!!!
+
+                                        --------YOUR CLUSTER IS READY TO BE USED-------
    
    
