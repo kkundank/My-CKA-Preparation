@@ -20,31 +20,37 @@ Steps Need to be performed on all the Nodes (Master & Worker):
             
     6. Take snapshots prior to installations, this way you can install 
        and revert to snapshot if needed
+       
+    7. Install open ssh server if not available.
+            # Command: sudo apt-get install openssh-server
+            
+    8. Install curl and apt-transport-http utilities
+            # Command: apt-get update && apt-get install -y apt-transport-https curl
     
-    7. Add Google's apt repository gpg key to our local repository list.
+    9. Add Google's apt repository gpg key to our local repository list.
             # Command: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     
-    8. Add the Kubernetes apt repository to our local repository list.
+    10. Add the Kubernetes apt repository to our local repository list.
             # Command: sudo bash -c 'cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
                        deb https://apt.kubernetes.io/ kubernetes-xenial main
                        EOF'
-    9. After adding above two commands, time to update the package list.
+    11. After adding above two commands, time to update the package list.
             # Command: sudo apt-get update
        ~ You can also check/inspect versions available in the repository.
             # Command: apt-cache policy kubelet | head -n 20 
             # Command: apt-cache policy docker.io | head -n 20
             
-    10. Install the required packages docker, kubeadm, kubelet, kubectl (If needed specify a specific version).
+    12. Install the required packages docker, kubeadm, kubelet, kubectl (If needed specify a specific version).
             # Command: sudo apt-get install -y docker.io kubelet kubeadm kubectl
         ~ Then we will set all these packages on hold, not to be updated by apt
             # Command: sudo apt-mark hold docker.io kubelet kubeadm kubectl 
             
-    11. You can check the status of our kubelet and our container runtime, docker.
+    13. You can check the status of our kubelet and our container runtime, docker.
         ~ The kubelet will enter a crashloop until it's joined. 
             # Command1: sudo systemctl status kubelet.service 
             # Command2: sudo systemctl status docker.service 
      
-    12. Ensure both are set to start when the system starts up.
+    14. Ensure both are set to start when the system starts up.
             # Command1: sudo systemctl enable kubelet.service
             # Command2: sudo systemctl enable docker.service
             
