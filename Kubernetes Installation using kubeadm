@@ -1,6 +1,6 @@
 ################################################ --Lab Environment Setup-- ##########################################################
 
----> Steps Need to be performed on all the Nodes (Master & Worker):
+#---> Steps Need to be performed on all the Nodes (Master & Worker):
 
 #    1. Create 3 Ubuntu VMs 16.04.5 or 18.04.1.0 on any cloud provider of your choice.
         a. 1 Master node  [2vCPU, 2GB RAM, 100GB Disk space ]
