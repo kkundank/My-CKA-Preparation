@@ -1,4 +1,6 @@
-###########################################################Setup#####################################################################
+################################################ --Lab Environment Setup-- ##########################################################
+
+Machine Used - Linux (Ubuntu 18.04 LTS)
 
 #   1. 3 VMs Ubuntu 16.04.5 or 18.04.1.0, 1 master, 2 nodes.
 #   2. Static IPs on individual VMs
@@ -27,7 +29,9 @@ apt-cache policy docker.io | head -n 20
 
 #Install the required packages, if needed we can request a specific version
 sudo apt-get install -y docker.io kubelet kubeadm kubectl
-sudo apt-mark hold docker.io kubelet kubeadm kubectl
+
+// We want kubernetes to update and manage these packages...
+sudo apt-mark hold docker.io kubelet kubeadm kubectl 
 
 #Check the status of our kubelet and our container runtime, docker.
 #The kubelet will enter a crashloop until it's joined. 
