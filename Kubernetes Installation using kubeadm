@@ -2,8 +2,6 @@
 
 Steps Need to be performed on all the Nodes (Master & Worker):
 
-Machine Used by me - Linux (Ubuntu 18.04 LTS)
-
     1. Create 3 Ubuntu VMs 16.04.5 or 18.04.1.0 on any cloud provider of your choice.
         a. 1 Master node  [2vCPU, 2GB RAM, 100GB Disk space ]
         b. 2 Worker nodes [Same configuration as master.....]
@@ -32,13 +30,13 @@ Machine Used by me - Linux (Ubuntu 18.04 LTS)
                        EOF'
     9. After adding above two commands, time to update the package list.
             # Command: sudo apt-get update
-       You can also check/inspect versions available in the repository.
+       ~ You can also check/inspect versions available in the repository.
             # Command: apt-cache policy kubelet | head -n 20 
             # Command: apt-cache policy docker.io | head -n 20
             
     10. Install the required packages docker, kubeadm, kubelet, kubectl (If needed specify a specific version).
             # Command: sudo apt-get install -y docker.io kubelet kubeadm kubectl
-        Then we will set all these packages on hold, not to be updated by apt
+        ~ Then we will set all these packages on hold, not to be updated by apt
             # Command: sudo apt-mark hold docker.io kubelet kubeadm kubectl 
             
     11. You can check the status of our kubelet and our container runtime, docker.
@@ -49,3 +47,12 @@ Machine Used by me - Linux (Ubuntu 18.04 LTS)
     12. Ensure both are set to start when the system starts up.
             # Command1: sudo systemctl enable kubelet.service
             # Command2: sudo systemctl enable docker.service
+            
+Bootstrapping the Master Node with Kubeadm (Run beow commands only on Master):
+        ~ [Default Process involved (Customizable)]: 
+                        kubeadm init, Pre-flight checks, creates a CA(For AUthentication & Encryption),
+                        Generate kube config files, Generate static pod manifests, Start up the control plane,
+                        Taints the Master(Only system Pods not user's pod), Generate Bootstrap Token
+
+    1. 
+
