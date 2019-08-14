@@ -1,1 +1,21 @@
 
+
+------------------------------------------
+CLI Generator commands... (ALWAYS USE THIS INSTEAD OF USING YAML MANIFEST EVERYTIME)
+
+# It will create a Pod
+kubectl run nginx --image=nginx --generator=run-pod/v1 
+
+# See the yaml definitions
+kubectl run nginx --image=nginx --generator=run-pod/v1 --dry-run -o yaml
+
+# It will create a deployment
+kubectl run --generator=deployment/v1beta1 nginx --image=nginx --dry-run -o yaml
+
+kubectl run --generator=deployment/v1beta1 nginx --image=nginx --dry-run --replicas=4 -o yaml
+
+# Saving this to a file
+kubectl run --generator=deployment/v1beta1 nginx --image=nginx --dry-run --replicas=4 -o yaml > nginx-deployment.yaml
+
+# DIfferent Generator Values...
+https://kubernetes.io/docs/reference/kubectl/conventions/
