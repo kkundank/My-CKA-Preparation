@@ -27,6 +27,10 @@ kubectl run --generator=deployment/v1beta1 nginx --image=nginx --dry-run --repli
 kubectl expose pod redis --port=6379 --name redis-service --dry-run -o yaml
 
 kubectl create service clusterip redis --tcp=6379:6379 --dry-run -o yaml
+
+Note: For creating a Service using commands, first use expose command taking the pod definition. Then
+      use edit type and insert nodeport.
+
 (This will not use the pods labels as selectors, instead it will assume 
  selectors as app=redis. You cannot pass in selectors as an option. 
  So it does not work very well if your pod has a different label set. 
