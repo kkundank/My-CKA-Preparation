@@ -5,3 +5,13 @@
 # Labels & Selectors
   - kubectl get pods --selector=tier=web,env=prod
   - 
+
+# Resource- Requirements & Limits
+
+# DaemonSets
+
+
+# Static Pods
+kubectl run static-pod --image=busybox --restart=Never --dry-run -o yaml > /etc/kubernetes/manifests/pod.yaml
+
+# Multiple Scheduler
