@@ -20,3 +20,16 @@ kubectl rollout undo deployment/name
 
 # Commands and Arguments
 
+
+# Environment Variables...
+-> Imperative Way:
+kubectl create configmap name --from-literal=key=value \
+--from-literal=key1=value1
+
+kubectl create configmap name --from-file=name.properties
+
+-> Declarative Way:
+kubectl create -f configmap.yaml
+
+
+
