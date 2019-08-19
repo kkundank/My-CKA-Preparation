@@ -1,0 +1,5 @@
+# Metric Server for monitoring
+
+# Commnad to see pod logs
+
+kubectl log pod
