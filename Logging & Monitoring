@@ -2,4 +2,5 @@
 
 # Commnad to see pod logs
 
-kubectl log pod
+kubectl logs -f pod_name // Seeing series of logs
+kubectl logs -f pod_name container_name
