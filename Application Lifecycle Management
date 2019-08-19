@@ -15,3 +15,8 @@ kubectl rollout history deployment/name
 
 #Rollback
 kubectl rollout undo deployment/name
+
+---------------------------------------------------------------
+
+# Commands and Arguments
+
