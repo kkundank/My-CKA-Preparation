@@ -6,6 +6,11 @@ CLI Generator commands... (ALWAYS USE THIS INSTEAD OF USING YAML MANIFEST EVERYT
 # It will create a Pod
 kubectl run nginx --image=nginx --generator=run-pod/v1 
 
+# Start container with different command & ARGS
+kubectl run nginx --image=nginx --command -- <cmd> <arg1> ... <argN> // Custom command & Args
+
+kubectl run nginx --image=nginx -- <arg1> <arg2> ... <argN> // Custom args
+
 # See the yaml definitions
 kubectl run nginx --image=nginx --generator=run-pod/v1 --dry-run -o yaml
 
