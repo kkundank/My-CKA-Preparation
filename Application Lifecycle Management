@@ -19,9 +19,17 @@ kubectl rollout undo deployment/name
 ---------------------------------------------------------------
 
 # Commands and Arguments
+------------------------
 
+# Start container with different command & ARGS
+kubectl run nginx --image=nginx --command -- <cmd> <arg1> ... <argN> // Custom command & Args
+
+kubectl run nginx --image=nginx -- <arg1> <arg2> ... <argN> // Custom args
 
 # Environment Variables...
+
+# ConfigMaps..
+------------
 -> Imperative Way:
 kubectl create configmap name --from-literal=key=value \
 --from-literal=key1=value1
@@ -30,6 +38,38 @@ kubectl create configmap name --from-file=name.properties
 
 -> Declarative Way:
 kubectl create -f configmap.yaml
+kind:ConfigMap
+
+# Secrets...
+----------
+
+-> Imerative way
+kubectl create secret generic name --from-literal=key=value
+
+kubectl create secret generic name --from-file=key1=value1
+
+-> Declarative Way
+kind:Secret
+
+echo - n "password" | base64  // Feed this is secret file
+
+echo -n "Encoded_password" | base64 --decode
+
+kubectl create -f secret.yaml
+
+# Injecting in pod:
+
+envFrom:
+  - secretkeyRef:
+      name:
+      
+      
+env:
+- name:
+  valueFrom:
+    secretKeyRef:
+      name:
+      key:
 
 
 
