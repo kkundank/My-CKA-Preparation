@@ -72,4 +72,11 @@ env:
       key:
 
 
+# Multi Container Pod Design...
+
+kubectl exec -it pod_name cat /log/app.log
+
+kubectl logs pod_name 
+
+
 
