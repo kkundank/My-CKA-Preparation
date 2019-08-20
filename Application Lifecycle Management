@@ -60,14 +60,14 @@ kubectl create -f secret.yaml
 # Injecting in pod:
 
 envFrom:
-  - secretkeyRef:
+  - secretRef:
       name:
       
       
 env:
 - name:
   valueFrom:
-    secretKeyRef:
+    secretRef:
       name:
       key:
 
