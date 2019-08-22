@@ -1,0 +1,25 @@
+# OS upgrades on Nodes
+
+kubectl drain node01
+
+kubectl drain node01 --ignore-daemonsets // If daemonsets managed pods are running on node
+
+kubectl drain node01 --ignore-daemonsets --force // If pods are not managed by Controller
+
+# CLuster upgrade Process
+
+		○ Upgrading Master
+			§ Apt-get upgrade -y kubeadm=1.12.0-00
+				□ Or apt install kubeadm=1.12.0-00
+			§ Kubeadm upgrade apply v1.12.0
+			§ Then you will have to upgrade kubelet if running on master node.
+			§ Apt-get upgrade -y kubelet=1.12.0-00
+			§ Systemctl restart kubelet
+		○ Upgrading Worker
+			§ Kubectl drain node1
+			§ Apt-get upgrade -y kubeadm=1.12.0-00
+			§ Kubeadm upgrade apply v1.12.0
+			§ Apt-get upgrade -y kubelet=1.12.0-00
+			§ Systemctl restart kubelet
+      § Kubectl uncordon node1
+
