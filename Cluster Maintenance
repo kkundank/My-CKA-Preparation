@@ -25,3 +25,23 @@ kubectl drain node01 --ignore-daemonsets --force // If pods are not managed by C
 			
 Note: Run the commands: apt install kubeadm=1.12.0-00and then apt install kubelet=1.12.0-00 and 
       then kubeadm upgrade node config --kubelet-version $(kubelet --version | cut -d ' ' -f 2)
+      
+# Backup & Restore
+
+kubectl get all --all-namespaces -o yaml > all-deploy-service.yaml // Resource configuration
+
+ETCDCTL_API=3 etcdctl snapshot save snapshot.db // ETCD backup
+
+ETCDCTL_API=3 etcdctl snapshot status snapshot.db
+
+Restore from backup:
+
+# Stop API Server
+1. service kube-apiserver stop
+2. ETCDCTL_API=3 etcdctl \
+    snapshot restore snapshot.db \
+    --data-dir /var/lib/etcd-from-backup \
+
+
+
+
