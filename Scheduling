@@ -4,7 +4,9 @@
   
 # Labels & Selectors
   - kubectl get pods --selector=tier=web,env=prod
-  - 
+  - kubectl get pods -L env // It will list all pods with label env
+  - kubectl get pods -l env=dev // it will select all pods with env=dev
+  - kubectl get pods -l env=dev,tier=frontend,bu=finance
 
 # Resource- Requirements & Limits
 
@@ -14,4 +16,90 @@
 # Static Pods
 kubectl run static-pod --image=busybox --restart=Never --dry-run -o yaml > /etc/kubernetes/manifests/pod.yaml
 
+kubectl run static-busybox --image=busybox --generator=run-pod/v1 --command -- sleep 1000 --dry-run -o yaml > pod1.yaml
+// Why the above command is not giving any manifests out ???
+
 # Multiple Scheduler
+
+Deploying an additional scheduler
+
+while creating the scheduler service, there is an option to add scheduler name in the definition section.
+--scheduler-name=default-scheduler
+OR
+--scheduler-name=custom-scheduler
+
+Creating custom-scheduler With Kubeadm tool
+-------------------------------------------
+  - It deploys it as a Pod.
+  - In pod definition just add your custom scheduler name to be used.
+      > spec:
+          containers:
+            - command:
+              - kube-scheduler
+              - --scheduler-name=custom-scheduler
+              
+  - Leader Elect Option
+      > It is used when you have multiple copies of scheduler running on multiple master in HA setup.
+      > If multiple copy of same scheduler running on different master, only one can be active a time.
+      > In order to get multiple scheduler working, if you don't have multiple masters.
+        # Set --leader-elect=false
+      > In case you have multiple masters running
+        # Set --lock-object-name=custom-scheduler (Differentiate b/w custom and default scheduler)
+        
+Using Custom Scheduelr in Pod Definition
+----------------------------------------
+  - spec:
+      containers:
+      - image:
+    schedulerName: custom-scheduler
+    
+# kubectl logs custom-scheduler -n kube-system
+
+Creating a custom scheduler
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    scheduler.alpha.kubernetes.io/critical-pod: ""
+  creationTimestamp: null
+  labels:
+    component: my-scheduler
+    tier: control-plane
+  name: my-scheduler
+  namespace: kube-system
+spec:
+  containers:
+  - command:
+    - kube-scheduler
+    - --address=127.0.0.1
+    - --kubeconfig=/etc/kubernetes/scheduler.conf
+    - --leader-elect=false  // Important point
+    - --port=10282
+    - --scheduler-name=my-scheduler
+    image: k8s.gcr.io/kube-scheduler-amd64:v1.11.3
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 8
+      httpGet:
+        host: 127.0.0.1
+        path: /healthz
+        port: 10282
+        scheme: HTTP
+      initialDelaySeconds: 15
+      timeoutSeconds: 15
+    name: kube-scheduler
+    resources:
+      requests:
+        cpu: 100m
+    volumeMounts:
+    - mountPath: /etc/kubernetes/scheduler.conf
+      name: kubeconfig
+      readOnly: true
+  hostNetwork: true
+  priorityClassName: system-cluster-critical
+  volumes:
+  - hostPath:
+      path: /etc/kubernetes/scheduler.conf
+      type: FileOrCreate
+    name: kubeconfig
+status: {}
