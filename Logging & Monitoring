@@ -4,3 +4,8 @@
 
 kubectl logs -f pod_name // Seeing series of logs
 kubectl logs -f pod_name container_name
+
+Use Case
+ > use image event-simulator
+ > kubectl create -f event-simulator.yaml
+ > kubectl logs -f event-simulator-pod
