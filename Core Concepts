@@ -1,0 +1,12 @@
+# ETCD in General
+
+Download Binaries, extract and run it. After running it, it starts a service on port 2379. 
+
+# ETCD control client
+
+./etcdctl set key1 value1
+
+./etcdctl get key1
+
+# ETCD in Kubernetes
+
