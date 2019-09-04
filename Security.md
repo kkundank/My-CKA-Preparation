@@ -1,4 +1,4 @@
-# Basic Authentication
+## Basic Authentication
 
 Create a file with user details locally at /tmp/users/user-details.csv
 
