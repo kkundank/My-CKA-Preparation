@@ -1,6 +1,6 @@
-## Basic Authentication
+# Basic Authentication
 
-Create a file with user details locally at /tmp/users/user-details.csv
+ Create a file with user details locally at /tmp/users/user-details.csv
 
 # User File Contents
 password123,user1,u0001
@@ -33,3 +33,19 @@ spec:
       path: /tmp/users
       type: DirectoryOrCreate
     name: usr-details
+
+- Modify the kube-apiserver startup options to include the basic-auth file
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  containers:
+  - command:
+    - kube-apiserver
+    - --authorization-mode=Node,RBAC
+      <content-hidden>
+    - --basic-auth-file=/tmp/users/user-details.csv
